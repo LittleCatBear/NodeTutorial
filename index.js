@@ -65,6 +65,14 @@ app.get('/:collection/:entity', function(req, res){
 	}
 });
 
+app.post('/:collection', function(req, res){
+	var object = req.body;
+	var collection = req.params.collection;
+	collectionDriver.save(collection, object, function(err, docs){
+		if(err){ res.send(400, err);}
+		else{ res.send(201, docs);}
+	});
+});
 
 app.use(function(req, res){
 	res.render('404', {url:req.url});
