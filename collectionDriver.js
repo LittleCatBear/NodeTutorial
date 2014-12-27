@@ -37,7 +37,7 @@ CollectionDriver.prototype.get = function(collectionName, id, callback){
 	});
 };
 
-CollectionDriver.prototype.save = function(collectionName, obj, callback{
+CollectionDriver.prototype.save = function(collectionName, obj, callback){
 	this.getCollection(collectionName, function(error, the_collection){
 		if(error) callback(error);
 		else{
@@ -47,6 +47,6 @@ CollectionDriver.prototype.save = function(collectionName, obj, callback{
 			});
 		}
 	});
-});
+};
 
 exports.CollectionDriver = CollectionDriver;

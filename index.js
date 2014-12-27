@@ -2,6 +2,9 @@
 var http = require('http'),
 	express = require('express'),
 	path = require('path');
+
+var bodyParser = require('body-parser');
+
 MongoClient = require('mongodb').MongoClient,
 Server = require('mongodb').Server,
 CollectionDriver = require('./CollectionDriver').CollectionDriver;
@@ -9,10 +12,15 @@ CollectionDriver = require('./CollectionDriver').CollectionDriver;
 var app =  express();
 
 app.set('port', process.env.PORT || 3000);
-app.use(express.static('views', path.join(__dirname, 'views"')));
-
 app.set('view engine', 'jade');
 
+app.use(express.bodyParser());
+app.use(express.static('views', path.join(__dirname, 'views"')));
+
+
+app.use(function(req, res){
+	res.render('404', {url:req.url});
+});
 var mongoHost = 'localHost';
 var mongoPort = 27017;
 var CollectionDriver;
@@ -29,6 +37,9 @@ mongoClient.open(function(err, mongoClient){
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res){
+	res.render('404', {url:req.url});
+});
 /*
 app.get('/', function (req, res){
 	res.send('<html><body><h1> Salut express</h1></body></html>');
@@ -72,10 +83,6 @@ app.post('/:collection', function(req, res){
 		if(err){ res.send(400, err);}
 		else{ res.send(201, docs);}
 	});
-});
-
-app.use(function(req, res){
-	res.render('404', {url:req.url});
 });
 
 //2
